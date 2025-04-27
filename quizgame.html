@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Quiz Game</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .question { margin-bottom: 15px; }
+    .result { font-size: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h2>Quiz Game</h2>
+
+<div id="quiz"></div>
+
+<button onclick="submitQuiz()">Submit Answers</button>
+
+<p class="result" id="result"></p>
+
+<script>
+  const quizData = [
+    {
+      question: "What is the capital of France?",
+      options: ["Paris", "London", "Rome", "Berlin"],
+      answer: "Paris"
+    },
+    {
+      question: "Which planet is known as the Red Planet?",
+      options: ["Earth", "Mars", "Jupiter", "Venus"],
+      answer: "Mars"
+    },
+    {
+      question: "What is 10 + 5?",
+      options: ["10", "15", "20", "25"],
+      answer: "15"
+    }
+  ];
+
+  const quizContainer = document.getElementById("quiz");
+
+  quizData.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.classList.add("question");
+    qDiv.innerHTML = `<p>${index + 1}. ${q.question}</p>`;
+    q.options.forEach(option => {
+      qDiv.innerHTML += `
+        <label>
+          <input type="radio" name="q${index}" value="${option}"> ${option}
+        </label><br>`;
+    });
+    quizContainer.appendChild(qDiv);
+  });
+
+  function submitQuiz() {
+    let score = 0;
+    quizData.forEach((q, index) => {
+      const selected = document.querySelector(`input[name="q${index}"]:checked`);
+      if (selected && selected.value === q.answer) {
+        score++;
+      }
+    });
+    document.getElementById("result").textContent = `You scored ${score} out of ${quizData.length}`;
+  }
+</script>
+
+</body>
+</html>
